@@ -2,15 +2,18 @@
 
 public class Dealer : IDealer
 {
-    private readonly IReadOnlyList<Card> _deckOfCards;
-    public Dealer(ICardDeckFactory deckFactory)
+    private readonly ICardShuffle _cardShuffle;
+    private readonly ICardDeck _cardDeck;
+    public Dealer(ICardShuffle cardShuffle, ICardDeckFactory deckFactory)
     {
-        var cardDeck = deckFactory.CreateCardDeck();
-        _deckOfCards = cardDeck.ShuffleCards();
+        _cardShuffle = cardShuffle;
+        _cardDeck = deckFactory.CreateCardDeck();
     }
 
     public IReadOnlyList<Card> GetDeckOfCards()
     {
-        return _deckOfCards;
+        var deckOfCards = _cardDeck.UnpackCards();
+        var shuffledDeckOfCards = _cardShuffle.ShuffleCards(deckOfCards);
+        return shuffledDeckOfCards;
     }
 }

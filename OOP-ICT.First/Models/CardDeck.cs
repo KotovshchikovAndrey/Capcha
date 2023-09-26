@@ -1,17 +1,15 @@
-namespace OOP_ICT.Models;
+﻿namespace OOP_ICT.Models;
 
-public abstract class CardDeck
+public class CardDeck : ICardDeck
 {
-    protected readonly List<Card> Cards;
-    protected CardDeck(List<Card> cards)
+    private readonly List<Card> _cards; 
+    public CardDeck(List<Card> cards)
     {
-        Cards = cards;
+        _cards = cards;
     }
     
-    public IReadOnlyList<Card> GetCardsInOriginalOrder()
+    public IReadOnlyList<Card> UnpackCards()
     {
-        return Cards.AsReadOnly();
+        return _cards.AsReadOnly();
     }
-
-    public abstract IReadOnlyList<Card> ShuffleCards();
 }

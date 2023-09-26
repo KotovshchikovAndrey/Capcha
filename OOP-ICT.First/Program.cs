@@ -1,10 +1,15 @@
 ﻿using OOP_ICT.Models;
 
-var cardDeckFactory = new PerfectShuffledCardDeckFactory();
-var dealer = new Dealer(cardDeckFactory);
+var cardDeckFactory = new CardDeckFactory();
+var perfectShuffle = new PerfectShuffle();
+
+var dealer = new Dealer(perfectShuffle, cardDeckFactory);
 var deckOfCards = dealer.GetDeckOfCards();
 
 foreach (var card in deckOfCards)
 {
-    Console.WriteLine($"new Card(CardSuit.{card.Suit}, CardValue.{card.Value}),");
+    Console.WriteLine("card" + "=>" + "{" +
+                      $"Assert.Equal(CardSuit.{card.Suit}, card.Suit);\n    Assert.Equal(CardValue.{card.Value}, card.Value);" +
+                      "},");
 }
+
