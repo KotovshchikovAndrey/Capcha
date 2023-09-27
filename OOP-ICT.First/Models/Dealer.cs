@@ -10,15 +10,15 @@ public class Dealer : IDealer
         _cardDeckShuffleAlgorithm = cardDeckShuffleAlgorithm;
     }
 
-    public void ShuffleDeckOfCards()
+    public void ShuffleCardDeck()
     {
         var shuffleCardDeck = _cardDeckShuffleAlgorithm.ShuffleCardDeck(_cardDeck);
         _cardDeck = shuffleCardDeck;
     }
 
-    public Card DealCardFromDeck()
+    public Card DealCard()
     {
-        var card = _cardDeck.PopCard();
+        var card = _cardDeck.PopNextCard();
         return card;
     }
 

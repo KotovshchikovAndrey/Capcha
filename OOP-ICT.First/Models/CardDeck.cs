@@ -9,7 +9,7 @@ public class CardDeck
         _cards = cards;
     }
 
-    public Card PopCard()
+    public Card PopNextCard()
     {
         if (_cards.Count == 0)
         {

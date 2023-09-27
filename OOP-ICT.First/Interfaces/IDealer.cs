@@ -2,6 +2,7 @@ namespace OOP_ICT.Models;
 
 public interface IDealer
 {
-    Card DealCardFromDeck();
+    void ShuffleCardDeck();
+    Card DealCard();
     CardDeck GetCardDeck();
 }

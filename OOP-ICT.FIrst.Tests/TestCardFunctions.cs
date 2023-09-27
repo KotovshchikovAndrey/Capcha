@@ -15,17 +15,17 @@ public class TestCardFunctions
     }
 
     [Fact]
-    public void IsEmptyDeckThrowException_InputIsPopCardMethodAndExceptionMessage_ReturnTrue()
+    public void IsEmptyDeckThrowException_InputIsPopNextCardAndExceptionMessage_ReturnTrue()
     {
         var cardDeckFactory = new CardDeckFactory();
         var cardDeck = cardDeckFactory.CreateCardDeck();
 
         while (cardDeck.Count != 0)
         {
-            cardDeck.PopCard();
+            cardDeck.PopNextCard();
         }
 
-        var exception = Assert.Throws<Exception>(() => cardDeck.PopCard());
+        var exception = Assert.Throws<Exception>(() => cardDeck.PopNextCard());
         Assert.Equal("Колода пуста", exception.Message);
     }
 
@@ -308,7 +308,7 @@ public class TestCardFunctions
         var perfectShuffleAlgorithm = new PerfectShuffleAlgorithm();
 
         var dealer = new Dealer(cardDeckFactory, perfectShuffleAlgorithm);
-        dealer.ShuffleDeckOfCards();
+        dealer.ShuffleCardDeck();
         var cardDeck = dealer.GetCardDeck();
 
         Assert.Collection(cardDeck.GetCards(),
