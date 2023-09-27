@@ -5,7 +5,7 @@ var perfectShuffleAlgorithm = new PerfectShuffleAlgorithm();
 
 var dealer = new Dealer(cardDeckFactory, perfectShuffleAlgorithm);
 dealer.ShuffleDeckOfCards();
-var deckOfCards = dealer.GetDeckOfCards();
+var deckOfCards = dealer.GetCardDeck();
 
 for (var i = 0; i < 3; i++)
 {

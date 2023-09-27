@@ -15,14 +15,28 @@ public class TestCardFunctions
     }
 
     [Fact]
+    public void IsEmptyDeckThrowException_InputIsPopCardMethodAndExceptionMessage_ReturnTrue()
+    {
+        var cardDeckFactory = new CardDeckFactory();
+        var cardDeck = cardDeckFactory.CreateCardDeck();
+
+        while (cardDeck.Count != 0)
+        {
+            cardDeck.PopCard();
+        }
+
+        var exception = Assert.Throws<Exception>(() => cardDeck.PopCard());
+        Assert.Equal("Колода пуста", exception.Message);
+    }
+
+    [Fact]
     public void IsCardsInRightOrder_InputIsListOfCards_ReturnTrue()
     {
         var cardDeckFactory = new CardDeckFactory();
         var cardDeck = cardDeckFactory.CreateCardDeck();
-        var cards = cardDeck.GetCards();
 
         Assert.Collection(
-            cards,
+            cardDeck.GetCards(),
             card =>
             {
                 Assert.Equal(CardSuit.Hearts, card.Suit);
@@ -295,9 +309,9 @@ public class TestCardFunctions
 
         var dealer = new Dealer(cardDeckFactory, perfectShuffleAlgorithm);
         dealer.ShuffleDeckOfCards();
-        var deckOfCards = dealer.GetDeckOfCards();
+        var cardDeck = dealer.GetCardDeck();
 
-        Assert.Collection(deckOfCards,
+        Assert.Collection(cardDeck.GetCards(),
             card =>
             {
                 Assert.Equal(CardSuit.Spades, card.Suit);

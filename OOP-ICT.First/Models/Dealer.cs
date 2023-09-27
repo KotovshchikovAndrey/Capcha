@@ -22,9 +22,8 @@ public class Dealer : IDealer
         return card;
     }
 
-    public IReadOnlyList<Card> GetDeckOfCards()
+    public CardDeck GetCardDeck()
     {
-        var deckOfCards = _cardDeck.GetCards();
-        return deckOfCards;
+        return _cardDeck;
     }
 }
