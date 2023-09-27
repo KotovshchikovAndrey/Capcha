@@ -1,6 +1,6 @@
 namespace OOP_ICT.Models;
 
-public interface ICardShuffle
+public interface ICardDeckShuffleAlgorithm
 {
-    IReadOnlyList<Card> ShuffleCards(IReadOnlyList<Card> cards);
+    CardDeck ShuffleCardDeck(CardDeck cardDeck);
 }

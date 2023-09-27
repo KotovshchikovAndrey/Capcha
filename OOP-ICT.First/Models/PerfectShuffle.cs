@@ -1,17 +1,18 @@
 namespace OOP_ICT.Models;
 
-public class PerfectShuffle : ICardShuffle
+public class PerfectShuffleAlgorithm : ICardDeckShuffleAlgorithm
 {
-    public IReadOnlyList<Card> ShuffleCards(IReadOnlyList<Card> cards)
+    public CardDeck ShuffleCardDeck(CardDeck cardDeck)
     {
-        var half = cards.Count / 2;
-        var shuffledCards = new Card[cards.Count];
+        var half = cardDeck.Count / 2;
+        var cards = cardDeck.GetCards();
+        var shuffledCards = new Card[cardDeck.Count];
         for (var i = 0; i < half; i++)
         {
             shuffledCards[i * 2] = cards[i + half];
             shuffledCards[i * 2 + 1] = cards[i];
         }
 
-        return shuffledCards.AsReadOnly();
+        return new CardDeck(shuffledCards.ToList());
     }
 }

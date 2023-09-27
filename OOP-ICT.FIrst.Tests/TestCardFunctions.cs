@@ -6,29 +6,12 @@ namespace OOP_ICT.FIrst.Tests;
 public class TestCardFunctions
 {
     [Fact]
-    public void IsDeckOfCardsLengthEqual52_InputIsListOfCardsCount_ReturnTrue()
-    {
-        var cardDeckFactory = new CardDeckFactory();
-        var cardDeck = cardDeckFactory.CreateCardDeck();
-        var deckOfCards = cardDeck.TakeCards();
-        
-        Assert.Equal(52, deckOfCards.Count);
-    }
-
-    [Fact]
-    public void IsReturnCardsThrowException_InputIsListOfCardsAndExceptionMessage_ReturnTrue()
+    public void IsCardDeckLengthEqual52_InputIsListOfCardsCount_ReturnTrue()
     {
         var cardDeckFactory = new CardDeckFactory();
         var cardDeck = cardDeckFactory.CreateCardDeck();
         
-        var deckOfCards = cardDeck.TakeCards();
-        var incorrectDeckOfCards = deckOfCards.ToList();
-        
-        incorrectDeckOfCards.RemoveAt(0);
-        incorrectDeckOfCards.Add(new Card(CardSuit.Clubs, CardValue.King));
-
-        var exception = Assert.Throws<Exception>(() => cardDeck.ReturnCards(incorrectDeckOfCards));
-        Assert.Equal("Карты не совпадают с теми, что были в колоде изначально", exception.Message);
+        Assert.Equal(52, cardDeck.Count);
     }
 
     [Fact]
@@ -36,7 +19,7 @@ public class TestCardFunctions
     {
         var cardDeckFactory = new CardDeckFactory();
         var cardDeck = cardDeckFactory.CreateCardDeck();
-        var cards = cardDeck.TakeCards();
+        var cards = cardDeck.GetCards();
 
         Assert.Collection(
             cards,
@@ -305,12 +288,13 @@ public class TestCardFunctions
     }
 
     [Fact]
-    public void IsCardsShuffledWithPerfectShuffle_InputIsListOfCards_ReturnTrue()
+    public void IsDeckOfCardsShuffledWithPerfectShuffle_InputIsListOfCards_ReturnTrue()
     {
         var cardDeckFactory = new CardDeckFactory();
-        var perfectShuffle = new PerfectShuffle();
+        var perfectShuffleAlgorithm = new PerfectShuffleAlgorithm();
 
-        var dealer = new Dealer(perfectShuffle, cardDeckFactory);
+        var dealer = new Dealer(cardDeckFactory, perfectShuffleAlgorithm);
+        dealer.ShuffleDeckOfCards();
         var deckOfCards = dealer.GetDeckOfCards();
 
         Assert.Collection(deckOfCards,

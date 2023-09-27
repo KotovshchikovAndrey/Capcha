@@ -2,13 +2,18 @@
 
 public class Dealer : IDealer
 {
-    private readonly ICardShuffle _cardShuffle;
-    private readonly ICardDeck _cardDeck;
-    public Dealer(ICardShuffle cardShuffle, ICardDeckFactory deckFactory)
+    private CardDeck _cardDeck;
+    private readonly ICardDeckShuffleAlgorithm _cardDeckShuffleAlgorithm;
+    public Dealer(ICardDeckFactory deckFactory, ICardDeckShuffleAlgorithm cardDeckShuffleAlgorithm)
     {
-        _cardShuffle = cardShuffle;
         _cardDeck = deckFactory.CreateCardDeck();
-        PrepareDeckOfCards();
+        _cardDeckShuffleAlgorithm = cardDeckShuffleAlgorithm;
+    }
+
+    public void ShuffleDeckOfCards()
+    {
+        var shuffleCardDeck = _cardDeckShuffleAlgorithm.ShuffleCardDeck(_cardDeck);
+        _cardDeck = shuffleCardDeck;
     }
 
     public Card DealCardFromDeck()
@@ -19,14 +24,7 @@ public class Dealer : IDealer
 
     public IReadOnlyList<Card> GetDeckOfCards()
     {
-        var deckOfCards = _cardDeck.TakeCards();
+        var deckOfCards = _cardDeck.GetCards();
         return deckOfCards;
-    }
-
-    private void PrepareDeckOfCards()
-    {
-        var deckOfCards = _cardDeck.TakeCards();
-        var shuffledDeckOfCards = _cardShuffle.ShuffleCards(deckOfCards);
-        _cardDeck.ReturnCards(shuffledDeckOfCards);
     }
 }

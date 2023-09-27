@@ -1,9 +1,10 @@
 ﻿using OOP_ICT.Models;
 
 var cardDeckFactory = new CardDeckFactory();
-var perfectShuffle = new PerfectShuffle();
+var perfectShuffleAlgorithm = new PerfectShuffleAlgorithm();
 
-var dealer = new Dealer(perfectShuffle, cardDeckFactory);
+var dealer = new Dealer(cardDeckFactory, perfectShuffleAlgorithm);
+dealer.ShuffleDeckOfCards();
 var deckOfCards = dealer.GetDeckOfCards();
 
 for (var i = 0; i < 3; i++)

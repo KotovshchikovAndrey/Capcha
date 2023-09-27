@@ -2,7 +2,7 @@ namespace OOP_ICT.Models;
 
 public class CardDeckFactory : ICardDeckFactory
 {
-    public ICardDeck CreateCardDeck()
+    public CardDeck CreateCardDeck()
     {
         var cardSuits = Enum.GetValues<CardSuit>();
         var cardValues = Enum.GetValues<CardValue>();

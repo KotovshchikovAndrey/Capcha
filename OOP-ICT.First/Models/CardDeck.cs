@@ -1,8 +1,9 @@
 ﻿namespace OOP_ICT.Models;
 
-public class CardDeck : ICardDeck
+public class CardDeck
 {
-    private List<Card> _cards; 
+    public int Count => _cards.Count;
+    private readonly List<Card> _cards; 
     public CardDeck(List<Card> cards)
     {
         _cards = cards;
@@ -21,25 +22,8 @@ public class CardDeck : ICardDeck
         return card;
     }
     
-    public IReadOnlyList<Card> TakeCards()
+    public IReadOnlyList<Card> GetCards()
     {
         return _cards.AsReadOnly();
-    }
-
-    public void ReturnCards(IReadOnlyList<Card> cards)
-    {
-        var isCardsEqualOriginalCards = CheckIsCardsEqualOriginalCards(cards);
-        if (!isCardsEqualOriginalCards)
-        {
-            throw new Exception("Карты не совпадают с теми, что были в колоде изначально");
-        }
-        
-        _cards = cards.ToList();
-    }
-
-    private bool CheckIsCardsEqualOriginalCards(IReadOnlyList<Card> cards)
-    {
-        var cardsSet = cards.ToHashSet();
-        return cardsSet.SetEquals(_cards);
     }
 }
