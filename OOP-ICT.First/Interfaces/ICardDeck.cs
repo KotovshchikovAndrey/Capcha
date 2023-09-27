@@ -2,5 +2,7 @@ namespace OOP_ICT.Models;
 
 public interface ICardDeck
 {
-   IReadOnlyList<Card> UnpackCards();
+   Card PopCard();
+   IReadOnlyList<Card> TakeCards();
+   void ReturnCards(IReadOnlyList<Card> cards);
 }

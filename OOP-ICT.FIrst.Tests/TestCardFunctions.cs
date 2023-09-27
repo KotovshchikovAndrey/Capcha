@@ -5,17 +5,30 @@ namespace OOP_ICT.FIrst.Tests;
 
 public class TestCardFunctions
 {
-    private readonly CardSuit[] _cardSuits = Enum.GetValues<CardSuit>();
-    private readonly CardValue[] _cardValues = Enum.GetValues<CardValue>();
-    
     [Fact]
     public void IsDeckOfCardsLengthEqual52_InputIsListOfCardsCount_ReturnTrue()
     {
         var cardDeckFactory = new CardDeckFactory();
         var cardDeck = cardDeckFactory.CreateCardDeck();
-        var deckOfCards = cardDeck.UnpackCards();
+        var deckOfCards = cardDeck.TakeCards();
         
         Assert.Equal(52, deckOfCards.Count);
+    }
+
+    [Fact]
+    public void IsReturnCardsThrowException_InputIsListOfCardsAndExceptionMessage_ReturnTrue()
+    {
+        var cardDeckFactory = new CardDeckFactory();
+        var cardDeck = cardDeckFactory.CreateCardDeck();
+        
+        var deckOfCards = cardDeck.TakeCards();
+        var incorrectDeckOfCards = deckOfCards.ToList();
+        
+        incorrectDeckOfCards.RemoveAt(0);
+        incorrectDeckOfCards.Add(new Card(CardSuit.Clubs, CardValue.King));
+
+        var exception = Assert.Throws<Exception>(() => cardDeck.ReturnCards(incorrectDeckOfCards));
+        Assert.Equal("Карты не совпадают с теми, что были в колоде изначально", exception.Message);
     }
 
     [Fact]
@@ -23,7 +36,7 @@ public class TestCardFunctions
     {
         var cardDeckFactory = new CardDeckFactory();
         var cardDeck = cardDeckFactory.CreateCardDeck();
-        var cards = cardDeck.UnpackCards();
+        var cards = cardDeck.TakeCards();
 
         Assert.Collection(
             cards,

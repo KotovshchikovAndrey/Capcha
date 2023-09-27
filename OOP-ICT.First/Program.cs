@@ -6,10 +6,28 @@ var perfectShuffle = new PerfectShuffle();
 var dealer = new Dealer(perfectShuffle, cardDeckFactory);
 var deckOfCards = dealer.GetDeckOfCards();
 
-foreach (var card in deckOfCards)
+for (var i = 0; i < 3; i++)
 {
-    Console.WriteLine("card" + "=>" + "{" +
-                      $"Assert.Equal(CardSuit.{card.Suit}, card.Suit);\n    Assert.Equal(CardValue.{card.Value}, card.Value);" +
-                      "},");
+    var card = dealer.DealCardFromDeck();
+    Console.WriteLine($"{card.Suit} : {card.Value}");
 }
 
+// foreach (var card in deckOfCards)
+// {
+//     Console.WriteLine("card" + "=>" + "{" +
+//                       $"Assert.Equal(CardSuit.{card.Suit}, card.Suit);\n    Assert.Equal(CardValue.{card.Value}, card.Value);" +
+//                       "},");
+// }
+
+
+// var cardDeckFactory1 = new CardDeckFactory();
+// var perfectShuffle1 = new PerfectShuffle();
+//
+// var dealer1 = new Dealer(perfectShuffle1, cardDeckFactory1);
+// var deckOfCards1 = dealer.GetDeckOfCards().ToList();
+// deckOfCards1.Reverse();
+// deckOfCards1.RemoveAt(0);
+//
+// var d1 = deckOfCards1.ToHashSet();
+//
+// Console.WriteLine(d1.SetEquals(deckOfCards));

@@ -8,12 +8,25 @@ public class Dealer : IDealer
     {
         _cardShuffle = cardShuffle;
         _cardDeck = deckFactory.CreateCardDeck();
+        PrepareDeckOfCards();
+    }
+
+    public Card DealCardFromDeck()
+    {
+        var card = _cardDeck.PopCard();
+        return card;
     }
 
     public IReadOnlyList<Card> GetDeckOfCards()
     {
-        var deckOfCards = _cardDeck.UnpackCards();
+        var deckOfCards = _cardDeck.TakeCards();
+        return deckOfCards;
+    }
+
+    private void PrepareDeckOfCards()
+    {
+        var deckOfCards = _cardDeck.TakeCards();
         var shuffledDeckOfCards = _cardShuffle.ShuffleCards(deckOfCards);
-        return shuffledDeckOfCards;
+        _cardDeck.ReturnCards(shuffledDeckOfCards);
     }
 }
