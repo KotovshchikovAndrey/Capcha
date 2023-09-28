@@ -6,17 +6,8 @@ public class CardDeckFactory : ICardDeckFactory
     {
         var cardSuits = Enum.GetValues<CardSuit>();
         var cardValues = Enum.GetValues<CardValue>();
-        
-        var cards = new List<Card>();
-        foreach (var value in cardValues.Reverse())
-        {
-            foreach (var suit in cardSuits)
-            {
-                var card = new Card(suit, value);
-                cards.Add(card);
-            } 
-        }
-        
+        var cards = (from value in cardValues.Reverse() from suit in cardSuits select new Card(suit, value)).ToList();
+
         return new CardDeck(cards);
     } 
 }

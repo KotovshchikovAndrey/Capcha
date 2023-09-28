@@ -1,4 +1,5 @@
-﻿using OOP_ICT.Models;
+﻿using OOP_ICT.Exceptions;
+using OOP_ICT.Models;
 using Xunit;
 
 namespace OOP_ICT.FIrst.Tests;
@@ -25,7 +26,7 @@ public class TestCardFunctions
             cardDeck.PopNextCard();
         }
 
-        var exception = Assert.Throws<Exception>(() => cardDeck.PopNextCard());
+        var exception = Assert.Throws<EmptyCardDeckException>(() => cardDeck.PopNextCard());
         Assert.Equal("Колода пуста", exception.Message);
     }
 

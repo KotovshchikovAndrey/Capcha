@@ -1,4 +1,6 @@
-﻿namespace OOP_ICT.Models;
+﻿using OOP_ICT.Exceptions;
+
+namespace OOP_ICT.Models;
 
 public class CardDeck
 {
@@ -13,7 +15,7 @@ public class CardDeck
     {
         if (_cards.Count == 0)
         {
-            throw new Exception("Колода пуста");
+            throw new EmptyCardDeckException("Колода пуста");
         }
 
         var card = _cards[0];
