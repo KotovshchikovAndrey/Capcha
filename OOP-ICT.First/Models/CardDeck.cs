@@ -15,7 +15,7 @@ public class CardDeck
     {
         if (_cards.Count == 0)
         {
-            throw new EmptyCardDeckException("Колода пуста");
+            throw CardDeckException.EmptyCardDeck("Колода пуста");
         }
 
         var card = _cards[0];

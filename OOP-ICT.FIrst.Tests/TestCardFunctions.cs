@@ -26,7 +26,7 @@ public class TestCardFunctions
             cardDeck.PopNextCard();
         }
 
-        var exception = Assert.Throws<EmptyCardDeckException>(() => cardDeck.PopNextCard());
+        var exception = Assert.Throws<CardDeckException>(() => cardDeck.PopNextCard());
         Assert.Equal("Колода пуста", exception.Message);
     }
 
