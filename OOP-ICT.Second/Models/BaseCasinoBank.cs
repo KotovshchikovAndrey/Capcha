@@ -61,11 +61,11 @@ public class BaseCasinoBank : ICasinoBank
 
     public void CreateNewCasinoAccountForPlayer(Player player)
     {
-        var playerAccountBuilder = new PlayerAccountBuilder();
-        playerAccountBuilder.SetBalance(0);
-        playerAccountBuilder.SetAccountName($"Player`s bank of chips {player.Name} {player.Surname}");
+        var newPlayerCasinoAccount = new PlayerAccountBuilder()
+            .SetBalance(0)
+            .SetAccountName($"Player`s bank of chips {player.Name} {player.Surname}")
+            .BuildPlayerAccount();
         
-        var newPlayerCasinoAccount = playerAccountBuilder.BuildPlayerAccount();
         _repository.SavePlayerAccount(player.Uuid, newPlayerCasinoAccount);
     }
 }
