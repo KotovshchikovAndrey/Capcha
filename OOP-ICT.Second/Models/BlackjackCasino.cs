@@ -40,7 +40,7 @@ public class BlackjackCasino
     public void IncreasePlayerBet(Guid playerUuid,int betIncrease)
     {
         var blackjackPlayer = FindPLayerInGame(playerUuid);
-        var isBalanceSufficient = !_bank.CheckIsPlayerCasinoBalanceSufficient(playerUuid, betIncrease);
+        var isBalanceSufficient = _bank.CheckIsPlayerCasinoBalanceSufficient(playerUuid, betIncrease);
         if (!isBalanceSufficient)
         {
             throw BlackjackCasinoException.BalanceIsNotSufficientForBet("Insufficient balance for bet!");
