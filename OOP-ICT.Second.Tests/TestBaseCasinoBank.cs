@@ -6,7 +6,7 @@ namespace OOP_ICT.Second.Tests;
 
 public class TestBaseCasinoBank
 {
-    private readonly Player _player = new Player(null,"Test", "Player");
+    private readonly Player _player = new Player("Test", "Player");
     private readonly MoneyBank _moneyBank;
     private readonly ICasinoBank _casinoBank;
     
@@ -25,21 +25,19 @@ public class TestBaseCasinoBank
     [Fact]
     public void TestIsAddChipsToPlayerCasinoBalanceWorkCorrect_ReturnTrue()
     {
-        var chips = _casinoBank.AddChipsToPlayerCasinoBalance(_player.Uuid, 10);
+        _casinoBank.AddChipsToPlayerCasinoBalance(_player.Uuid, 10);
         var playerCasinoAccountInfo = _casinoBank.GetPlayerCasinoAccountInfo(_player.Uuid);
         
         Assert.Equal(110, playerCasinoAccountInfo.Balance);
-        Assert.Equal(10, chips);
     }
     
     [Fact]
     public void TestIsSubtractChipsFromPlayerCasinoBalanceWorkCorrect_ReturnTrue()
     {
-        var chips = _casinoBank.SubtractChipsFromPlayerCasinoBalance(_player.Uuid, 10);
+        _casinoBank.SubtractChipsFromPlayerCasinoBalance(_player.Uuid, 10);
         var playerCasinoAccountInfo = _casinoBank.GetPlayerCasinoAccountInfo(_player.Uuid);
         
         Assert.Equal(90, playerCasinoAccountInfo.Balance);
-        Assert.Equal(10, chips);
     }
     
     [Fact]
@@ -52,9 +50,7 @@ public class TestBaseCasinoBank
     [Fact]
     public void TestIsBuyChipsForPlayerWorkCorrect_ReturnTrue()
     {
-        var moneySpentAmount =_casinoBank.BuyChipsForPlayer(_player.Uuid, 10);
-        Assert.Equal($"-{Constants.ChipPrice * 10}", moneySpentAmount);
-
+        _casinoBank.BuyChipsForPlayer(_player.Uuid, 10);
         var playerMoneyAccountInfo = _moneyBank.GetPlayerAccountInfo(_player.Uuid);
         Assert.Equal(100 - Constants.ChipPrice * 10, playerMoneyAccountInfo.Balance);
         
@@ -65,9 +61,7 @@ public class TestBaseCasinoBank
     [Fact]
     public void TestIsSellChipsForRealMoneyWorkCorrect_ReturnTrue()
     {
-        var moneyAccruedAmount = _casinoBank.SellChipsForRealMoney(_player.Uuid, 100);
-        Assert.Equal($"+{Constants.ChipPrice * 100}", moneyAccruedAmount);
-        
+        _casinoBank.SellChipsForRealMoney(_player.Uuid, 100);
         var playerMoneyAccountInfo = _moneyBank.GetPlayerAccountInfo(_player.Uuid);
         Assert.Equal(100 + Constants.ChipPrice * 100, playerMoneyAccountInfo.Balance);
         

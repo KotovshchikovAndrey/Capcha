@@ -43,18 +43,18 @@ public class BlackjackCasino
         var isBalanceSufficient = !_bank.CheckIsPlayerCasinoBalanceSufficient(playerUuid, betIncrease);
         if (!isBalanceSufficient)
         {
-            throw BlackjackCasinoException.BalanceIsNotSufficientForBet("Недостаточно средств для ставки!");
+            throw BlackjackCasinoException.BalanceIsNotSufficientForBet("Insufficient balance for bet!");
         }
 
-        var chips = _bank.SubtractChipsFromPlayerCasinoBalance(playerUuid, betIncrease);
-        blackjackPlayer.IncreaseCurrentBet(chips);
+        _bank.SubtractChipsFromPlayerCasinoBalance(playerUuid, betIncrease);
+        blackjackPlayer.IncreaseCurrentBet(betIncrease);
     }
 
     private BlackjackPlayer FindPLayerInGame(Guid playerUuid)
     {
         if (!_blackjackPlayers.ContainsKey(playerUuid))
         {
-            throw BlackjackCasinoException.PlayerDoesNotExists("Игрок не найден!");
+            throw BlackjackCasinoException.PlayerDoesNotExists("Player in game does not exists!");
         }
 
         return _blackjackPlayers[playerUuid];

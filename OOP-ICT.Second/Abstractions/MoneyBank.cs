@@ -11,16 +11,16 @@ public abstract class MoneyBank
         _repository = repository;
     }
     
-    public decimal AddAmountToPlayerBalance(Guid playerUuid, decimal amount)
+    public void AddAmountToPlayerBalance(Guid playerUuid, decimal amount)
     {
         var playerAccount = _repository.FindPlayerAccountByPlayerUuid(playerUuid);
-        return playerAccount.IncreaseBalance(amount);
+        playerAccount.IncreaseBalance(amount);
     }
     
-    public decimal SubtractAmountFromPlayerBalance(Guid playerUuid, decimal amount)
+    public void SubtractAmountFromPlayerBalance(Guid playerUuid, decimal amount)
     {
         var playerAccount = _repository.FindPlayerAccountByPlayerUuid(playerUuid);
-        return playerAccount.DecreaseBalance(amount);
+        playerAccount.DecreaseBalance(amount);
     }
 
     public void CreateNewAccountForPlayer(Player player)

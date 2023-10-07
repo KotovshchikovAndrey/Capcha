@@ -11,7 +11,7 @@ public class TestPlayerAccount
     {
         var playerAccount = new PlayerAccount();
         var exception = Assert.Throws<PlayerAccountException>(() => playerAccount.SetBalance(-100));
-        Assert.Equal("Баланс не может быть отрицательным!", exception.Message);
+        Assert.Equal("Balance cannot be negative value!", exception.Message);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class TestPlayerAccount
         var exception = Assert.Throws<PlayerAccountException>(
             () => playerAccount.DecreaseBalance(100));
         
-        Assert.Equal("Недостаточно средств на балансе!", exception.Message);
+        Assert.Equal("Insufficient account balance!", exception.Message);
         Assert.Equal(50, playerAccount.Balance);
     }
 }

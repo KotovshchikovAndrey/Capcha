@@ -13,20 +13,18 @@ public class BaseCasinoBank : ICasinoBank
         _moneyBank = moneyBank;
     }
     
-    public string BuyChipsForPlayer(Guid playerUuid, decimal chipsCount)
+    public void BuyChipsForPlayer(Guid playerUuid, decimal chipsCount)
     {
         // Снимаем деньги с денежного счета
         var chipsPrice = chipsCount * Constants.ChipPrice;
-        var moneySpentAmount = _moneyBank.SubtractAmountFromPlayerBalance(playerUuid, chipsPrice);
+        _moneyBank.SubtractAmountFromPlayerBalance(playerUuid, chipsPrice);
         
         // Зачисляем фишки на счет казино
         var playerCasinoAccount = _repository.FindPlayerAccountByPlayerUuid(playerUuid);
         playerCasinoAccount.IncreaseBalance(chipsCount);
-
-        return $"-{moneySpentAmount}";
     }
 
-    public string SellChipsForRealMoney(Guid playerUuid, decimal chipsCount)
+    public void SellChipsForRealMoney(Guid playerUuid, decimal chipsCount)
     {
         // Снимаем фишки со счета казино
         var playerCasinoAccount = _repository.FindPlayerAccountByPlayerUuid(playerUuid);
@@ -34,23 +32,19 @@ public class BaseCasinoBank : ICasinoBank
         
         // Переводим фищки в деньги и зачисляем их на денежный счет
         var chipsPrice = chipsCount * Constants.ChipPrice;
-        var moneyAccruedAmount = _moneyBank.AddAmountToPlayerBalance(playerUuid, chipsPrice);
-        
-        return $"+{moneyAccruedAmount}";
+        _moneyBank.AddAmountToPlayerBalance(playerUuid, chipsPrice);
     }
 
-    public decimal AddChipsToPlayerCasinoBalance(Guid playerUuid, decimal chipsCount)
+    public void AddChipsToPlayerCasinoBalance(Guid playerUuid, decimal chipsCount)
     {
         var playerCasinoAccount = _repository.FindPlayerAccountByPlayerUuid(playerUuid);
         playerCasinoAccount.IncreaseBalance(chipsCount);
-        return chipsCount;
     }
 
-    public decimal SubtractChipsFromPlayerCasinoBalance(Guid playerUuid, decimal chipsCount)
+    public void SubtractChipsFromPlayerCasinoBalance(Guid playerUuid, decimal chipsCount)
     {
         var playerCasinoAccount = _repository.FindPlayerAccountByPlayerUuid(playerUuid);
         playerCasinoAccount.DecreaseBalance(chipsCount);
-        return chipsCount;
     }
 
     public bool CheckIsPlayerCasinoBalanceSufficient(Guid playerUuid, decimal chipsCount)
@@ -69,7 +63,7 @@ public class BaseCasinoBank : ICasinoBank
     {
         var playerAccountBuilder = new PlayerAccountBuilder();
         playerAccountBuilder.SetBalance(0);
-        playerAccountBuilder.SetAccountName($"Банк фишек игрока {player.Name} {player.Surname}");
+        playerAccountBuilder.SetAccountName($"Player`s bank of chips {player.Name} {player.Surname}");
         
         var newPlayerCasinoAccount = playerAccountBuilder.BuildPlayerAccount();
         _repository.SavePlayerAccount(player.Uuid, newPlayerCasinoAccount);

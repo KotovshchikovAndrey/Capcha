@@ -6,9 +6,16 @@ public class Player
     public string Name { get; }
     public string Surname { get; }
 
-    public Player(Guid? uuid, string name, string surname)
+    public Player(Guid uuid, string name, string surname)
     {
-        Uuid = uuid ?? new Guid();
+        Uuid = uuid;
+        Name = name;
+        Surname = surname;
+    }
+    
+    public Player(string name, string surname)
+    {
+        Uuid = new Guid();
         Name = name;
         Surname = surname;
     }

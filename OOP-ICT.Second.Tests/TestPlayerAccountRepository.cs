@@ -24,7 +24,7 @@ public class TestPlayerAccountRepository
         var playerAccountAlreadyExistsException = Assert.Throws<PlayerAccountRepositoryException>(
             () => _repository.SavePlayerAccount(_playerUuid, new PlayerAccount()));
         
-        Assert.Equal("Счет игрока не найден!",playerAccountNotExistsException.Message);
-        Assert.Equal("У игрока уже есть счет!",playerAccountAlreadyExistsException.Message);
+        Assert.Equal("Player account does not exists!",playerAccountNotExistsException.Message);
+        Assert.Equal("Player account already exists!",playerAccountAlreadyExistsException.Message);
     }
 }

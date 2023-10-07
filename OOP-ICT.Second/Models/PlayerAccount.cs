@@ -11,7 +11,7 @@ public class PlayerAccount
     {
         if (balance < 0)
         {
-            throw PlayerAccountException.NegativeValue("Баланс не может быть отрицательным!");
+            throw PlayerAccountException.NegativeValue("Balance cannot be negative value!");
         }
         
         Balance = balance;
@@ -22,36 +22,34 @@ public class PlayerAccount
         if (accountName.Length is < 10 or > 100)
         {
             throw PlayerAccountException.InvalidAccountName(
-                "Длина названия счета должна быть от 10 до 100 символов!");
+                "Length of the account name should be from 10 to 100 characters!");
         }
         
         AccountName = accountName;
     }
     
-    public decimal IncreaseBalance(decimal amount)
+    public void IncreaseBalance(decimal amount)
     {
         if (amount < 0)
         {
-            throw PlayerAccountException.NegativeValue("Сумма для начисления не может быть отрицательной!");
+            throw PlayerAccountException.NegativeValue("Amount for increase cannot be negative value!");
         }
         
         Balance += amount;
-        return amount;
     }
 
-    public decimal DecreaseBalance(decimal amount)
+    public void DecreaseBalance(decimal amount)
     {
         if (amount < 0)
         {
-            throw PlayerAccountException.NegativeValue("Сумма для списания не может быть отрицательной!");
+            throw PlayerAccountException.NegativeValue("Amount for decrease cannot be negative value!");
         }
         
         if (Balance < amount)
         {
-            throw PlayerAccountException.InsufficientBalance("Недостаточно средств на балансе!");
+            throw PlayerAccountException.InsufficientBalance("Insufficient account balance!");
         }
         
         Balance -= amount;
-        return amount;
     }
 }

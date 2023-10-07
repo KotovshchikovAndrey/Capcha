@@ -9,9 +9,9 @@ public class BaseMoneyBank : MoneyBank
     protected override PlayerAccount CreatePlayerAccount(Player player)
     {
         var playerAccountBuilder = new PlayerAccountBuilder();
-        playerAccountBuilder.SetBalance(0);
-        playerAccountBuilder.SetAccountName($"Денежный счет игрока {player.Name} {player.Surname}");
-        
-        return playerAccountBuilder.BuildPlayerAccount();
+        return playerAccountBuilder
+            .SetBalance(0)
+            .SetAccountName($"Player`s bank of money {player.Name} {player.Surname}")
+            .BuildPlayerAccount();
     }
 }

@@ -10,7 +10,7 @@ public class PlayerAccountRepository : IPlayerAccountRepository
     {
         if (!_playerAccounts.ContainsKey(playerUuid))
         {
-            throw PlayerAccountRepositoryException.PlayerAccountAlreadyExists("Счет игрока не найден!");
+            throw PlayerAccountRepositoryException.PlayerAccountDoesNotExists("Player account does not exists!");
         }
         
         var playerAccount = _playerAccounts[playerUuid];
@@ -21,7 +21,7 @@ public class PlayerAccountRepository : IPlayerAccountRepository
     {
         if (_playerAccounts.ContainsKey(playerUuid))
         {
-            throw PlayerAccountRepositoryException.PlayerAccountAlreadyExists("У игрока уже есть счет!");
+            throw PlayerAccountRepositoryException.PlayerAccountAlreadyExists("Player account already exists!");
         }
         
         _playerAccounts.Add(playerUuid, playerAccount);
