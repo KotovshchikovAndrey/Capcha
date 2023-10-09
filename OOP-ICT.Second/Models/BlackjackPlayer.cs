@@ -13,6 +13,7 @@ public class BlackjackPlayer
     {
         Player = player ?? throw PlayerException.NullReference("Player cannot be null!");
     }
+    
     public void IncreaseCurrentBet(decimal betIncrease)
     {
         if (betIncrease < 0)
