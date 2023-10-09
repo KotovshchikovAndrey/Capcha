@@ -6,7 +6,7 @@ namespace OOP_ICT.Second.Tests;
 
 public class TestPlayerAccountRepository
 {
-    private readonly Guid _playerUuid = new Guid();
+    private readonly Guid _playerUuid = Guid.NewGuid();
     private readonly IPlayerAccountRepository _repository = new PlayerAccountRepository();
 
     public TestPlayerAccountRepository()

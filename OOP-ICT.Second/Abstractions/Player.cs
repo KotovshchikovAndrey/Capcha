@@ -8,7 +8,7 @@ public class Player
     
     public Player(string name, string surname)
     {
-        Uuid = new Guid();
+        Uuid = Guid.NewGuid();
         Name = name;
         Surname = surname;
     }
