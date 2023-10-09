@@ -8,9 +8,16 @@ public class PlayerAccountRepositoryException : Exception
     {
         return new PlayerAccountRepositoryException(message);
     }
-
+    
     public static PlayerAccountRepositoryException PlayerAccountAlreadyExists(string message)
     {
         return new PlayerAccountRepositoryException(message);
     }
+
+    public static PlayerAccountRepositoryException NullReference(string message)
+    {
+        return new PlayerAccountRepositoryException(message);
+    }
+    
+    
 }

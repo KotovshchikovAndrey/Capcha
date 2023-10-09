@@ -8,4 +8,9 @@ public class PlayerException : Exception
     {
         return new PlayerException(message);
     }
+
+    public static PlayerException NullReference(string message)
+    {
+        return new PlayerException(message);
+    }
 }

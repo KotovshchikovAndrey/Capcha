@@ -1,4 +1,5 @@
 using OOP_ICT.Second.Abstractions;
+using OOP_ICT.Second.Exceptions;
 
 namespace OOP_ICT.Second.Models;
 
@@ -9,8 +10,8 @@ public class BaseCasinoBank : ICasinoBank
     
     public BaseCasinoBank(IPlayerAccountRepository repository, MoneyBank moneyBank)
     {
-        _repository = repository;
-        _moneyBank = moneyBank;
+        _repository = repository ?? throw CasinoBankException.NullReference("Repository cannot be null!");
+        _moneyBank = moneyBank ?? throw CasinoBankException.NullReference("MoneyBank cannot be null!");
     }
     
     public void BuyChipsForPlayer(Guid playerUuid, decimal chipsCount)
@@ -61,6 +62,11 @@ public class BaseCasinoBank : ICasinoBank
 
     public void CreateNewCasinoAccountForPlayer(Player player)
     {
+        if (player is null)
+        {
+            throw CasinoBankException.NullReference("Player cannot be null!");
+        }
+        
         var newPlayerCasinoAccount = new PlayerAccountBuilder()
             .SetBalance(0)
             .SetAccountName($"Player`s bank of chips {player.Name} {player.Surname}")

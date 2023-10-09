@@ -9,7 +9,17 @@ public class BlackjackCasinoException : Exception
         return new BlackjackCasinoException(message);
     }
 
+    public static BlackjackCasinoException PlayerAlreadyExists(string message)
+    {
+        return new BlackjackCasinoException(message);
+    }
+
     public static BlackjackCasinoException BalanceIsNotSufficientForBet(string message)
+    {
+        return new BlackjackCasinoException(message);
+    }
+
+    public static BlackjackCasinoException NullReference(string message)
     {
         return new BlackjackCasinoException(message);
     }

@@ -19,6 +19,11 @@ public class PlayerAccountRepository : IPlayerAccountRepository
 
     public Guid SavePlayerAccount(Guid playerUuid, PlayerAccount playerAccount)
     {
+        if (playerAccount is null)
+        {
+            throw PlayerAccountRepositoryException.NullReference("PlayerAccount cannot be null!");
+        }
+        
         if (_playerAccounts.ContainsKey(playerUuid))
         {
             throw PlayerAccountRepositoryException.PlayerAccountAlreadyExists("Player account already exists!");

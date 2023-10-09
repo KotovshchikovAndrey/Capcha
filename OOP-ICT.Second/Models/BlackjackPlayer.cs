@@ -4,14 +4,15 @@ using OOP_ICT.Second.Exceptions;
 
 namespace OOP_ICT.Second.Models;
 
-public class BlackjackPlayer : Player
+public class BlackjackPlayer
 {
+    public Player Player { get; }
     public decimal CurrentBet { get; private set; } = 0;
 
-    public BlackjackPlayer(Guid uuid, string name, string surname) : base(uuid, name, surname) {}
-    
-    public BlackjackPlayer(string name, string surname) : base(name, surname) {}
-    
+    public BlackjackPlayer(Player player)
+    {
+        Player = player ?? throw PlayerException.NullReference("Player cannot be null!");
+    }
     public void IncreaseCurrentBet(decimal betIncrease)
     {
         if (betIncrease < 0)

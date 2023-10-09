@@ -1,3 +1,4 @@
+using OOP_ICT.Second.Exceptions;
 using OOP_ICT.Second.Models;
 
 namespace OOP_ICT.Second.Abstractions;
@@ -8,7 +9,7 @@ public abstract class MoneyBank
     
     protected MoneyBank(IPlayerAccountRepository repository)
     {
-        _repository = repository;
+        _repository = repository ?? throw MoneyBankException.NullReference("Repository cannot be null!");
     }
     
     public void AddAmountToPlayerBalance(Guid playerUuid, decimal amount)
@@ -25,6 +26,11 @@ public abstract class MoneyBank
 
     public void CreateNewAccountForPlayer(Player player)
     {
+        if (player is null)
+        {
+            throw MoneyBankException.NullReference("Player cannot be null!");
+        }
+        
         var newPlayerAccount = CreatePlayerAccount(player);
         _repository.SavePlayerAccount(player.Uuid, newPlayerAccount);
     }
