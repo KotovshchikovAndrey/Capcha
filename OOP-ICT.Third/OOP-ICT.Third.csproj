@@ -21,16 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Exceptions\" />
+      <ProjectReference Include="..\OOP-ICT.First\OOP-ICT.First.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OOP-ICT.First\OOP-ICT.First.csproj" />
       <ProjectReference Include="..\OOP-ICT.Second\OOP-ICT.Second.csproj" />
-    </ItemGroup>
-	
-    <ItemGroup>
-      <ProjectReference Include="..\OOP-ICT.First\OOP-ICT.Second.csproj" />
     </ItemGroup>
 
 </Project>

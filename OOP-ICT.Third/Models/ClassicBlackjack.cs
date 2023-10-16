@@ -2,21 +2,26 @@ using OOP_ICT.Models;
 using OOP_ICT.Second.Abstractions;
 using OOP_ICT.Second.Models;
 using OOP_ICT.Third.Abstractions;
+using OOP_ICT.Third.Exceptions;
 
 namespace OOP_ICT.Third.Models;
 
 public class ClassicBlackjack : BlackjackGame
 {
-    public ClassicBlackjack(ICasinoManager casinoManager) : base(casinoManager) {}
-
-    public override void StartGame(List<BlackjackPlayer> players)
+    private readonly List<BlackjackPlayer> _players;
+    public ClassicBlackjack(ICasinoManager casinoManager, List<BlackjackPlayer> players) : base(casinoManager)
     {
-        if (players.Count == 0)
+        _players = players;
+    }
+
+    public override void StartGame()
+    {
+        if (_players.Count == 0)
         {
-            throw new Exception("Game cannot start while players count is 0!");
+            throw BlackjackException.NotEnoughPlayersForStart("Game cannot start while players count is 0!");
         }
         
-        foreach (var blackjackPlayer in players)
+        foreach (var blackjackPlayer in _players)
         {
             var playerInstance = blackjackPlayer.Player;
             CasinoManager.AddPlayerInGame(playerInstance);
@@ -35,13 +40,7 @@ public class ClassicBlackjack : BlackjackGame
         PlayDealer();
         CalculateGameResult();
     }
-
-    public override void AddPlayerInGame(Player player, decimal bet)
-    {
-        CasinoManager.AddPlayerInGame(player);
-        CasinoManager.IncreasePlayerBet(player.Uuid, bet);
-    }
-
+    
     public override void RemovePlayerFromGame(Guid playerUuid)
     {
         SubtractLossAmount(playerUuid);
@@ -132,20 +131,19 @@ public class ClassicBlackjack : BlackjackGame
     private void CalculateGameResult()
     {
         var dealerCardsSum = CalculateCardsSum(CasinoManager.GetDealerCards());
-        var playersInGame = CasinoManager.FindAllPlayersInGame();
-        foreach (var player in playersInGame)
+        foreach (var player in _players)
         {
-            var playerCards = CasinoManager.GetPlayerCards(player.Uuid);
+            var playerCards = CasinoManager.GetPlayerCards(player.Player.Uuid);
             var playerCardsSum = CalculateCardsSum(playerCards);
     
             if (playerCardsSum > 21 || playerCardsSum < dealerCardsSum)
             {
-                SubtractLossAmount(player.Uuid);
+                SubtractLossAmount(player.Player.Uuid);
             } 
             
             else if (playerCardsSum > dealerCardsSum)
             {
-                AddWinningAmount(player.Uuid);
+                AddWinningAmount(player.Player.Uuid);
             }
         }
     }

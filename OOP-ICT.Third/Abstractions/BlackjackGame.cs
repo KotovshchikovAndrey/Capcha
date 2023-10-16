@@ -13,9 +13,8 @@ public abstract class BlackjackGame
         CasinoManager = casinoManager;
     }
 
-    public abstract void StartGame(List<BlackjackPlayer> players);
+    public abstract void StartGame();
     public abstract void FinishGame();
-    public abstract void AddPlayerInGame(Player player, decimal initialBet);
     public abstract void RemovePlayerFromGame(Guid playerUuid);
     public abstract void DealAdditionalCardForPlayer(Guid playerUuid);
     public abstract void DealAdditionalCardForDealer();

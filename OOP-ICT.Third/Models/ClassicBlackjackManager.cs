@@ -1,6 +1,7 @@
 using OOP_ICT.Models;
 using OOP_ICT.Second.Abstractions;
 using OOP_ICT.Third.Abstractions;
+using OOP_ICT.Third.Exceptions;
 
 namespace OOP_ICT.Third.Models;
 
@@ -13,17 +14,17 @@ public class ClassicBlackjackManager : ICasinoManager
 
     public ClassicBlackjackManager(ICasinoBank bank, ClassicBlackjackDealer dealer)
     {
-        _bank = bank;
-        _dealer = dealer;
-    }
-
-    public IReadOnlyList<Player> FindAllPlayersInGame()
-    {
-        return _players.Select(blackjackPlayer => blackjackPlayer.Value.Player).ToList();
+        _bank = bank ?? throw CasinoManagerException.NullReference("Bank cannot be null!");
+        _dealer = dealer ?? throw CasinoManagerException.NullReference("Dealer cannot be null!");
     }
 
     public void AddPlayerInGame(Player player)
     {
+        if (_players.ContainsKey(player.Uuid))
+        {
+            throw CasinoManagerException.PlayerAlreadyExists("Player already in game!");
+        }
+        
         var newPlayer = new ClassicBlackjackPlayer(player, GetInitialCardsForPlayer());
         _players.Add(newPlayer.Player.Uuid, newPlayer);
     }
@@ -54,7 +55,7 @@ public class ClassicBlackjackManager : ICasinoManager
         
         if (!isBalanceSufficient)
         {
-            throw new Exception();
+            throw CasinoManagerException.BalanceIsNotSufficientForBet("Insufficient balance for bet!");
         }
         
         playerInGame.IncreaseCurrentBet(bet);
@@ -94,7 +95,7 @@ public class ClassicBlackjackManager : ICasinoManager
     {
         if (!_players.ContainsKey(playerUuid))
         {
-            throw new Exception();
+            throw CasinoManagerException.PlayerDoesNotExists("Player in game does not exists!");
         }
 
         return _players[playerUuid];

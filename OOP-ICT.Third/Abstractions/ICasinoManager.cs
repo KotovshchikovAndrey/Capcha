@@ -5,7 +5,6 @@ namespace OOP_ICT.Third.Abstractions;
 
 public interface ICasinoManager
 {
-    IReadOnlyList<Player> FindAllPlayersInGame();
     void AddPlayerInGame(Player player);
     void RemovePlayerFromGame(Guid playerUuid);
     void AddChipsToPlayerBalance(Guid playerUuid, decimal amount);
