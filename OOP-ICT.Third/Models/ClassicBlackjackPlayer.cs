@@ -26,7 +26,7 @@ public class ClassicBlackjackPlayer : CasinoCardPlayer<Player>, ICanPlaceBet
     {
         if (betIncrease < 0)
         {
-            throw PlayerException.NegativeValue("Bet cannot be negative value!");
+            throw CardPlayerException.NegativeValue("Bet cannot be negative value!");
         }
 
         CurrentBet += betIncrease;

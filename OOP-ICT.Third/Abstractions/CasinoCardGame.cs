@@ -8,8 +8,8 @@ public abstract class CasinoCardGame<TP, TD>
     where TP : CasinoCardPlayer<Player>, ICanPlaceBet
     where TD : CasinoCardPlayer<IDealer> 
 {
-    protected readonly Dictionary<Guid, TP> Players;
     protected readonly ICasinoBank CasinoBank;
+    protected readonly Dictionary<Guid, TP> Players;
     protected readonly TD Dealer;
     
     public bool IsGameActive { get; protected set; } = false;
@@ -26,9 +26,10 @@ public abstract class CasinoCardGame<TP, TD>
     public abstract void HandOutCards();
     public abstract void RemovePlayerFromGame(Guid playerUuid);
     public abstract void DealAdditionalCardForPlayer(Guid playerUuid);
-    public abstract void IncreasePlayerBet(Guid playerUuid, decimal bet);
+    public abstract void IncreasePlayerBet(Guid playerUuid, decimal betIncrease);
     public abstract decimal AddWinningAmount(Guid playerUuid);
     public abstract decimal SubtractLossAmount(Guid playerUuid);
+    public abstract IReadOnlyList<Card> GetDealerCards();
     public abstract IReadOnlyList<Card> GetPlayerCards(Guid playerUuid);
     public abstract decimal GetPlayerBet(Guid playerUuid);
 }

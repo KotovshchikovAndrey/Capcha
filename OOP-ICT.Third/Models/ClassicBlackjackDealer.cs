@@ -6,12 +6,7 @@ namespace OOP_ICT.Third.Models;
 
 public class ClassicBlackjackDealer : CasinoCardPlayer<IDealer>
 {
-    // public IDealer DealerInstance { get; }
-
     public ClassicBlackjackDealer(IDealer dealer) : base(dealer) {}
-    // {
-    //     DealerInstance = dealer ?? throw CardPlayerException.NullReference("Dealer instance cannot be null!");;
-    // }
 
     public override void SetInitialCards(List<Card> cards)
     {

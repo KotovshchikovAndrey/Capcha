@@ -35,14 +35,7 @@ classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
 Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid)[0].Value);
 Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid)[1].Value);
 Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid)[2].Value);
-
 Console.WriteLine(classicBlackjack.CalculateCardsSum(classicBlackjack.GetPlayerCards(player1.Uuid)));
-// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
-// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
-// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
-// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
-//
-// Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid).Count);
 
 
 

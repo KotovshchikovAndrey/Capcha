@@ -13,4 +13,9 @@ public class CardPlayerException : Exception
     {
         return new CardPlayerException(message);
     }
+
+    public static CardPlayerException NegativeValue(string message)
+    {
+        return new CardPlayerException(message);
+    }
 }

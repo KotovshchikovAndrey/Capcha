@@ -2,6 +2,7 @@ using OOP_ICT.Models;
 using OOP_ICT.Second.Abstractions;
 using OOP_ICT.Third.Abstractions;
 using OOP_ICT.Third.Dto;
+using OOP_ICT.Third.Enum;
 using OOP_ICT.Third.Exceptions;
 
 namespace OOP_ICT.Third.Models;
@@ -21,7 +22,6 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
             throw CardGameException.NotEnoughPlayersForStart("Game cannot be started while player count is 0!");
         }
         
-        Dealer.ModelInstance.ShuffleCardDeck();
         IsGameActive = true;
     }
 
@@ -33,6 +33,12 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
     
     public override void HandOutCards()
     {
+        if (IsGameActive)
+        {
+            throw CardGameException.GameIsActive("It is not possible to deal cards after the start of the game!");
+        }
+        
+        Dealer.ModelInstance.ShuffleCardDeck();
         foreach (var player in Players.Values)
         {
             var playerInitialCards = new List<Card>();
@@ -65,7 +71,7 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         playerInGame.AddCard(card);
     }
 
-    public override void IncreasePlayerBet(Guid playerUuid, decimal bet)
+    public override void IncreasePlayerBet(Guid playerUuid, decimal betIncrease)
     {
         if (IsGameActive)
         {
@@ -73,13 +79,16 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         }
         
         var playerInGame = FindPLayerInGame(playerUuid);
-        var isPlayerBalanceSufficient = CasinoBank.CheckIsPlayerCasinoBalanceSufficient(playerUuid, bet);
-        if (!isPlayerBalanceSufficient)
+        var isPlayerBalanceSufficientForBet = CasinoBank.CheckIsPlayerCasinoBalanceSufficient(
+            playerUuid: playerUuid,
+            chipsCount: playerInGame.CurrentBet + betIncrease);
+        
+        if (!isPlayerBalanceSufficientForBet)
         {
             throw CardGameException.BalanceIsNotSufficientForBet("Balance is not sufficient for bet!");
         }
         
-        playerInGame.IncreaseCurrentBet(bet);
+        playerInGame.IncreaseCurrentBet(betIncrease);
     }
 
     public override decimal AddWinningAmount(Guid playerUuid)
@@ -95,6 +104,8 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         CasinoBank.SubtractChipsFromPlayerCasinoBalance(playerUuid, playerBet);
         return playerBet;
     }
+    
+    public override IReadOnlyList<Card> GetDealerCards() => Dealer.GetCards();
 
     public override IReadOnlyList<Card> GetPlayerCards(Guid playerUuid)
     {
@@ -163,17 +174,28 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         }
 
         var playerInGame = FindPLayerInGame(playerUuid);
-        var playerCardsSum = CalculateCardsSum(GetPlayerCards(playerInGame.ModelInstance.Uuid));
-        if (playerCardsSum > 21) return CalculateLoseResult(playerInGame);
+        var playerGameResult = new PlayerGameResult(
+            player: playerInGame.ModelInstance,
+            cards: playerInGame.GetCards());
         
         var dealerCardsSum = CalculateCardsSum(Dealer.GetCards());
-        if (dealerCardsSum > 21 || playerCardsSum > dealerCardsSum) return CalculateWinResult(playerInGame);
+        var playerCardsSum = CalculateCardsSum(GetPlayerCards(playerInGame.ModelInstance.Uuid));
+        if (playerCardsSum > 21 || playerCardsSum < dealerCardsSum)
+        {
+            playerGameResult.ResultStatus = GameResultStatus.Defeat;
+            return playerGameResult;
+        }
+        
+        if (playerCardsSum > dealerCardsSum)
+        {
+            playerGameResult.ResultStatus = GameResultStatus.Victory;
+            return playerGameResult;
+        }
 
-        return playerCardsSum < dealerCardsSum
-            ? CalculateLoseResult(playerInGame)
-            : CalculateDrawResult(playerInGame);
+        playerGameResult.ResultStatus = GameResultStatus.Draw;
+        return playerGameResult;
     }
-
+    
     private void PlayDealer()
     {
         var dealerCards = Dealer.GetCards();
@@ -203,31 +225,5 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         }
 
         return Players[playerUuid];
-    }
-
-    private PlayerGameResult CalculateWinResult(ClassicBlackjackPlayer playerInGame)
-    {
-        var playerGameResult = new PlayerGameResult(playerInGame.ModelInstance, playerInGame.GetCards());
-        var playerBet = GetPlayerBet(playerInGame.ModelInstance.Uuid);
-        CasinoBank.AddChipsToPlayerCasinoBalance(playerInGame.ModelInstance.Uuid, playerBet);
-        playerGameResult.WinAmount = playerBet;
-        
-        return playerGameResult;
-    }
-
-    private PlayerGameResult CalculateLoseResult(ClassicBlackjackPlayer playerInGame)
-    {
-        var playerGameResult = new PlayerGameResult(playerInGame.ModelInstance, playerInGame.GetCards());
-        var playerBet = GetPlayerBet(playerInGame.ModelInstance.Uuid);
-        CasinoBank.SubtractChipsFromPlayerCasinoBalance(playerInGame.ModelInstance.Uuid, playerBet);
-        playerGameResult.LoseAmount = playerBet;
-
-        return playerGameResult;
-    }
-
-    private PlayerGameResult CalculateDrawResult(ClassicBlackjackPlayer playerInGame)
-    {
-        var playerGameResult = new PlayerGameResult(playerInGame.ModelInstance, playerInGame.GetCards());
-        return playerGameResult;
     }
 }

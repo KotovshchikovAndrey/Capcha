@@ -4,8 +4,7 @@ using OOP_ICT.Third.Abstractions;
 
 namespace OOP_ICT.Third.Models;
 
-public class ClassicBlackjackCreator 
-    : CasinoCardGameCreator
+public class ClassicBlackjackCreator : CasinoCardGameCreator
     <
         ClassicBlackjack, 
         ClassicBlackjackPlayer, 
