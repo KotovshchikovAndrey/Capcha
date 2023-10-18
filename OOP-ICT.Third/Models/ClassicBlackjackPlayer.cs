@@ -1,33 +1,34 @@
 using OOP_ICT.Models;
 using OOP_ICT.Second.Abstractions;
-using OOP_ICT.Second.Models;
+using OOP_ICT.Second.Exceptions;
+using OOP_ICT.Third.Abstractions;
 using OOP_ICT.Third.Exceptions;
 
 namespace OOP_ICT.Third.Models;
 
-public class ClassicBlackjackPlayer : BlackjackPlayer
+public class ClassicBlackjackPlayer : CasinoCardPlayer<Player>, ICanPlaceBet
 {
-    private readonly List<Card> _cards;
-
-    public ClassicBlackjackPlayer(Player player, List<Card> initialCards) : base(player)
+    public decimal CurrentBet { get; private set; } = 0;
+    
+    public ClassicBlackjackPlayer(Player player) : base(player) {}
+    
+    public override void SetInitialCards(List<Card> cards)
     {
-        if (initialCards.Count != 2)
+        if (cards.Count != 2)
         {
-            throw BlackjackPlayerException.InvalidInitialCardCount(
-                "Initial number of cards in classic blackjack must be 2!");
+            throw CardPlayerException.InvalidInitialCardCount("Initial card count must be 2!");
         }
-        
-        _cards = initialCards;
+
+        Cards = cards;
     }
 
-    public void AddCard(Card card)
+    public void IncreaseCurrentBet(decimal betIncrease)
     {
-        if (card is null) throw BlackjackPlayerException.NullReference("Card cannot be null!");
-        _cards.Add(card);
-    }
+        if (betIncrease < 0)
+        {
+            throw PlayerException.NegativeValue("Bet cannot be negative value!");
+        }
 
-    public IReadOnlyList<Card> GetCards()
-    {
-        return _cards.AsReadOnly();
+        CurrentBet += betIncrease;
     }
 }

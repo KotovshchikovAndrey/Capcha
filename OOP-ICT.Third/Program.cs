@@ -21,15 +21,29 @@ casinoBank.CreateNewCasinoAccountForPlayer(player2);
 casinoBank.AddChipsToPlayerCasinoBalance(player1.Uuid, 1000);
 casinoBank.AddChipsToPlayerCasinoBalance(player2.Uuid, 2000);
 
-var classicBlackjackCreator = new ClassicBlackjackCreator();
-var classicBlackjack = classicBlackjackCreator
+var classicBlackjackFactory = new ClassicBlackjackCreator();
+var classicBlackjack = classicBlackjackFactory
     .SetDealer()
-    .SetCasinoManager(casinoBank)
-    .AddPlayer(player1, 100)
-    .AddPlayer(player2, 200)
-    .CreateGame();
+    .AddPlayerInGame(player1)
+    .AddPlayerInGame(player2)
+    .CreateGame(casinoBank);
 
 classicBlackjack.StartGame();
-var cards1 = classicBlackjack.GetMyCards(player1.Uuid);
+classicBlackjack.HandOutCards();
 
-Console.WriteLine(cards1[0].Value);
+classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
+Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid)[0].Value);
+Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid)[1].Value);
+Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid)[2].Value);
+
+Console.WriteLine(classicBlackjack.CalculateCardsSum(classicBlackjack.GetPlayerCards(player1.Uuid)));
+// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
+// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
+// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
+// classicBlackjack.DealAdditionalCardForPlayer(player1.Uuid);
+//
+// Console.WriteLine(classicBlackjack.GetPlayerCards(player1.Uuid).Count);
+
+
+
+
