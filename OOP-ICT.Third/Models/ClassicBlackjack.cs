@@ -42,7 +42,7 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         foreach (var player in Players.Values)
         {
             var playerInitialCards = new List<Card>();
-            for (var i = 0; i < 2; i++)
+            for (var i = 0; i < Constants.InitialCardCountForPlayer; i++)
             {
                 var card = Dealer.ModelInstance.DealCard();
                 playerInitialCards.Add(card);
@@ -61,9 +61,10 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
     {
         var playerCardsSum = CalculateCardsSum(GetPlayerCards(playerUuid));
         Console.WriteLine(playerCardsSum);
-        if (playerCardsSum > 21)
+        if (playerCardsSum > Constants.MaxAllowedCardSum)
         {
-            throw CardGameException.PlayerIsLostGame("Player is lost game! The number of points is more than 21!");
+            throw CardGameException.PlayerIsLostGame(
+                $"Player is lost game! The number of points is more than {Constants.MaxAllowedCardSum}!");
         }
         
         var playerInGame = FindPLayerInGame(playerUuid);
@@ -133,13 +134,13 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         var playerInGame = FindPLayerInGame(playerUuid);
         var playerCards = playerInGame.GetCards();
 
-        return (playerCards.Count == 2)
+        return (playerCards.Count == Constants.CardCountWhenBlackjack)
                && (
                    (playerCards[0].Value is CardValue.Ace &&
-                    Constants.ClassicBlackjackCardPoints[playerCards[1].Value] == 10)
+                    Constants.ClassicBlackjackCardPoints[playerCards[1].Value] == Constants.CardValueWhenBlackjack)
                    ||
                    (playerCards[1].Value is CardValue.Ace &&
-                    Constants.ClassicBlackjackCardPoints[playerCards[0].Value] == 10)
+                    Constants.ClassicBlackjackCardPoints[playerCards[0].Value] == Constants.CardValueWhenBlackjack)
                );
     }
     
@@ -153,9 +154,9 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         { 
             if (card.Value is not CardValue.Ace) continue; 
             var acePoints = Constants.ClassicBlackjackCardPoints[card.Value];
-            if (cardsSum + acePoints > 21)
+            if (cardsSum + acePoints > Constants.MaxAllowedCardSum)
             {
-                cardsSum += 1;
+                cardsSum += Constants.AcePointWhenMaxAllowedCardSum;
             }
             else
             {
@@ -180,7 +181,7 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
         
         var dealerCardsSum = CalculateCardsSum(Dealer.GetCards());
         var playerCardsSum = CalculateCardsSum(GetPlayerCards(playerInGame.ModelInstance.Uuid));
-        if (playerCardsSum > 21 || playerCardsSum < dealerCardsSum)
+        if (playerCardsSum > Constants.MaxAllowedCardSum || playerCardsSum < dealerCardsSum)
         {
             playerGameResult.ResultStatus = GameResultStatus.Defeat;
             return playerGameResult;
@@ -200,11 +201,11 @@ public class ClassicBlackjack : CasinoCardGame<ClassicBlackjackPlayer, ClassicBl
     {
         var dealerCards = Dealer.GetCards();
         var dealerCardsSum = CalculateCardsSum(dealerCards); 
-        while (dealerCardsSum < 21)
+        while (dealerCardsSum < Constants.MaxAllowedCardSum)
         {
             DealAdditionalCardForDealer();
             dealerCardsSum = CalculateCardsSum(dealerCards);
-            if (dealerCardsSum > 17)
+            if (dealerCardsSum > Constants.MinAllowedCardSumForDealer)
             {
                 break;
             }

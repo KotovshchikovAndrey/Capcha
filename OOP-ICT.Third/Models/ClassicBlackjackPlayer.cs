@@ -14,7 +14,7 @@ public class ClassicBlackjackPlayer : CasinoCardPlayer<Player>, ICanPlaceBet
     
     public override void SetInitialCards(List<Card> cards)
     {
-        if (cards.Count != 2)
+        if (cards.Count != Constants.InitialCardCountForPlayer)
         {
             throw CardPlayerException.InvalidInitialCardCount("Initial card count must be 2!");
         }
