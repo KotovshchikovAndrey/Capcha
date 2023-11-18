@@ -1,3 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using OOP_ICT.Fourth.Models.CardCombinations;
+using OOP_ICT.Models;
 
-Console.WriteLine("Hello, World!");
+var cards = new List<Card>()
+{
+    new Card(CardSuit.Clubs, CardValue.Ace),
+    new Card(CardSuit.Clubs, CardValue.Queen),
+    new Card(CardSuit.Clubs, CardValue.King),
+    new Card(CardSuit.Clubs, CardValue.Jack),
+    new Card(CardSuit.Clubs, CardValue.Seven),
+};
+
+Console.WriteLine(new RoyalFlush().Check(cards));
