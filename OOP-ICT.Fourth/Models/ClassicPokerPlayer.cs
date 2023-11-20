@@ -22,9 +22,9 @@ public class ClassicPokerPlayer : CasinoCardPlayer<Player>, ICanPlaceBet
     
     public override void SetInitialCards(List<Card> cards)
     {
-        if (cards.Count != 5)
+        if (cards.Count != Constants.InitialCardCountForPlayer)
         {
-            throw CardPlayerException.InvalidInitialCardCount("Initial card count must be 5!");
+            throw CardPlayerException.InvalidInitialCardCount($"Initial card count must be {Constants.InitialCardCountForPlayer}!");
         }
 
         Cards = cards;

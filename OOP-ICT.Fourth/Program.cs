@@ -7,7 +7,7 @@ var cards = new List<Card>()
     new Card(CardSuit.Clubs, CardValue.Queen),
     new Card(CardSuit.Clubs, CardValue.King),
     new Card(CardSuit.Clubs, CardValue.Jack),
-    new Card(CardSuit.Clubs, CardValue.Seven),
+    new Card(CardSuit.Clubs, CardValue.Ten),
 };
 
 Console.WriteLine(new RoyalFlush().Check(cards));

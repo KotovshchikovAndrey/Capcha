@@ -6,22 +6,22 @@ namespace OOP_ICT.Fourth.Models;
 
 public class ClassicPokerDealer : CasinoCardPlayer<IDealer>
 {
+    private ClassicPokerPlayer _playerInstance;
     public ClassicPokerPlayer PlayerInstance
     {
-        get => PlayerInstance ?? throw CardPlayerException.NullReference("Player instance has not been set!");
-        set => PlayerInstance = value ?? throw CardPlayerException.NullReference("Player instance cannot be null!");
+        get => _playerInstance?? throw CardPlayerException.NullReference("Player instance has not been set!");
+        set => _playerInstance = value ?? throw CardPlayerException.NullReference("Player instance cannot be null!");
     }
 
-    public ClassicPokerDealer(
-        IDealer dealerInstance) : base(dealerInstance) {}
+    public ClassicPokerDealer(IDealer dealerInstance) : base(dealerInstance) {}
 
     public override void SetInitialCards(List<Card> cards)
     {
-        if (PlayerInstance is null)
+        if (_playerInstance is null)
         {
             throw CardPlayerException.NullReference("Player instance has not been set!");
         }
 
-        PlayerInstance.SetInitialCards(cards);
+        _playerInstance.SetInitialCards(cards);
     }
 }

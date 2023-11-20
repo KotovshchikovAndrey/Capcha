@@ -13,15 +13,23 @@ public class Straight : ICardCombination
         var cardValueList = System.Enum.GetValues(typeof(CardValue)).Cast<CardValue>().ToList();
         var inputCardValueList = cards.Select(card => card.Value).OrderBy(value => value).ToList();
 
-        var currentIndex = cardValueList.FindIndex(value => value == inputCardValueList[0]);
-        foreach (var cardValue in inputCardValueList)
+        var i = 0;
+        var j = 0;
+        
+        while (i < cardValueList.Count && cardValueList[i] != inputCardValueList[j])
         {
-            if (currentIndex >= cardValueList.Count || cardValue != cardValueList[currentIndex])
+            i += 1;
+        }
+
+        while (i < cardValueList.Count && j < inputCardValueList.Count)
+        {
+            if (cardValueList[i] != inputCardValueList[j])
             {
                 return false;
             }
-            
-            currentIndex += 1;
+
+            i += 1;
+            j += 1;
         }
 
         return true;

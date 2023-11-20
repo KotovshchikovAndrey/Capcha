@@ -29,10 +29,10 @@ public class ClassicPoker : CasinoCardGame<ClassicPokerPlayer, ClassicPokerDeale
 
     public override void StartGame()
     {
-        if (Players.Count < 2)
+        if (Players.Count < Constants.MinPlayerCountForStart)
         {
             throw CardGameException.NotEnoughPlayersForStart(
-                "Classic poker must have 2 and more players for start!");
+                $"Classic poker must have {Constants.MinPlayerCountForStart} and more players for start!");
         }
         
         CheckPlayersStartBetsOrThrowException();
@@ -42,7 +42,15 @@ public class ClassicPoker : CasinoCardGame<ClassicPokerPlayer, ClassicPokerDeale
         IsGameActive = true;
     }
 
-    public override void FinishGame() => IsGameActive = false;
+    public override void FinishGame()
+    {
+        if (_currentCircle != _circlesCount)
+        {
+            throw CardGameException.GameIsActive("Last circle is not finish!");
+        }
+        
+        IsGameActive = false;
+    }
 
     public override void HandOutCards()
     {
@@ -55,7 +63,7 @@ public class ClassicPoker : CasinoCardGame<ClassicPokerPlayer, ClassicPokerDeale
         foreach (var player in Players.Values)
         {
             var playerCards = new List<Card>();
-            for (var index = 0; index < 5; index++)
+            for (var index = 0; index < Constants.InitialCardCountForPlayer; index++)
             {
                 var card = Dealer.ModelInstance.DealCard();
                 playerCards.Add(card);
@@ -121,7 +129,7 @@ public class ClassicPoker : CasinoCardGame<ClassicPokerPlayer, ClassicPokerDeale
     {
         if (_circlesCount == _currentCircle)
         {
-            throw ClassicPokerException.LastCircleIsOver("Last circle is over!");
+            throw StopIterationException.LastIteration("Last circle is over!");
         }
         
         ChooseDealerFromPlayers();
@@ -184,7 +192,7 @@ public class ClassicPoker : CasinoCardGame<ClassicPokerPlayer, ClassicPokerDeale
             Dealer.PlayerInstance = playerList[_currentCircle - 1];
             return;
         }
-
+        
         var nextDealerIndex = (playerList.Count) % (_currentCircle - 1);
         var nextDealer = playerList[nextDealerIndex];
         Dealer.PlayerInstance = nextDealer;
